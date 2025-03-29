@@ -2,7 +2,7 @@ import services
 
 class Main:
     def __init__(self):
-        self.welcome = "Bienvenido a la calculadora \n"
+        self.welcome = "Bienvenido a la calculadora"
         self.question_1 = "Elige el tipo de operacion: Sumar, Restar, Multiplicar, Dividir, Modulo\n"
         self.question_2 = "Proporcione los numeros: \n"
         self.goodbye = "Este fue el resultado de la operacion: \n"
@@ -13,29 +13,38 @@ class Main:
             print(self.welcome)
 
             operation = input(self.question_1).lower()
-            response = input(self.question_2)
-            response_split = services.string_to_array(response)
-            numbers = services.chars_to_numbers(response_split)
 
+            if not services.valid_input(operation):
+                println("Proporciona una operacion valida")
+                continue
+
+            numbers_string = input(self.question_2)
+
+            if not services.valid_input(numbers_string):
+                println("Proporciona una entrada valida")
+                continue
+
+            numbers_string_split = services.string_to_array(numbers_string)
+            numbers = services.chars_to_numbers(numbers_string_split)
             result = services.resolve(operation, numbers) #da igual
+
             print(f"El resultado es: {result}")
             
-            is_answer_valid = False
-            finish = False
-            while is_answer_valid == False:
+            valid_answer = False
+            while not valid_answer:
                 answer = input(self.question_3)
 
                 if answer == "n":
-                    finish = True
-                    is_answer_valid = True
+                    exit = True
+                    valid_answer = True
                     print("Cerrando calculadora")
                 elif answer == "y": 
                     finish = False
-                    is_answer_valid = True
+                    valid_answer = True
                 else:
                     print("Ingresa una opción válida.")
 
-            if finish == True:
+            if finish:
                 break
 
 main = Main()
